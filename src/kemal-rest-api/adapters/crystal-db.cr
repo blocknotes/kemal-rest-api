@@ -5,7 +5,7 @@ module KemalRestApi::Adapters
     def initialize( @db_connection : String, @table_name : String )
     end
 
-    def create( args : Hash( String, DB::Any ) )
+    def create( args : Hash( String, String ) )
       DB.open @db_connection do |db|
         if args.empty?
           return 0
@@ -31,7 +31,7 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def update( id : Int, args : Hash( String, DB::Any ) )
+    def update( id : Int, args : Hash( String, String ) )
       DB.open @db_connection do |db|
         found = false
         db.query( "SELECT * FROM #{@table_name} WHERE id = ?", id ) { |rs| found = rs.move_next }

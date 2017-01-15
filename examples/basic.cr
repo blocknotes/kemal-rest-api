@@ -29,7 +29,7 @@ end
 # KemalRestApi::Resource.new MyModel.new
 
 ## Change some options:
-KemalRestApi::Resource.new MyModel.new, nil, singular: "test"
+KemalRestApi::Resource.new MyModel.new, nil, singular: "item"
 
 ## Setup only specific routes:
 # KemalRestApi::Resource.new MyModel.new, {

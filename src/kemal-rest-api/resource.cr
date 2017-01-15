@@ -1,11 +1,10 @@
 require "./action"
-require "../kemal-rest-api"
 
 module KemalRestApi
   abstract struct Model
-    abstract def create( args : Hash( String, DB::Any ) ): Int | Nil
+    abstract def create( args : Hash( String, String ) ): Int | Nil
     abstract def read( id : Int ): Hash( String, String ) | Nil
-    abstract def update( id : Int, args : Hash( String, DB::Any ) ): Int | Nil
+    abstract def update( id : Int, args : Hash( String, String ) ): Int | Nil
     abstract def delete( id : Int ): Int | Nil
     abstract def list(): Array( Hash( String, String ) )
   end
