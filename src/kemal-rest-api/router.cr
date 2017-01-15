@@ -67,15 +67,45 @@ module KemalRestApi
         unless path.empty?
           case action.type
           when ActionType::GET
-            get "#{path}" { |env| block.call env }
+            get "#{path}" do |env|
+              begin
+                block.call env
+              rescue ex : Exception
+                { "error": ex.message }.to_json
+              end
+            end
           when ActionType::POST
-            post "#{path}" { |env| block.call env }
+            post "#{path}" do |env|
+              begin
+                block.call env
+              rescue ex : Exception
+                { "error": ex.message }.to_json
+              end
+            end
           when ActionType::PUT
-            put "#{path}" { |env| block.call env }
+            put "#{path}" do |env|
+              begin
+                block.call env
+              rescue ex : Exception
+                { "error": ex.message }.to_json
+              end
+            end
           when ActionType::PATCH
-            patch "#{path}" { |env| block.call env }
+            patch "#{path}" do |env|
+              begin
+                block.call env
+              rescue ex : Exception
+                { "error": ex.message }.to_json
+              end
+            end
           when ActionType::DELETE
-            delete "#{path}" { |env| block.call env }
+            delete "#{path}" do |env|
+              begin
+                block.call env
+              rescue ex : Exception
+                { "error": ex.message }.to_json
+              end
+            end
           end
           puts "#{action.type} #{path}" if DEBUG
         end
