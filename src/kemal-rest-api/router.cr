@@ -1,0 +1,85 @@
+require "kemal"
+require "../kemal-rest-api/*"
+
+module KemalRestApi
+  def self.generate_routes!
+    Resource.resources.each do |resource|
+      resource.actions.each do |action|
+        path = ""
+        block = ->( env : HTTP::Server::Context ) {}
+        case action.method
+        when ActionMethod::CREATE
+          path = "/#{resource.plural}"
+          block = ->( env : HTTP::Server::Context ) do
+            args = env.params.body.to_h  # TODO: let pass only valid fields
+            ret = resource.model.create args
+            if ret && ret > 0
+              env.response.status_code = 201
+              { "message": "ok", "id": ret.to_s }.to_json
+            else
+              env.response.status_code = 400
+            end
+          end
+        when ActionMethod::READ
+          path = "/#{resource.plural}/:id"
+          block = ->( env : HTTP::Server::Context ) do
+            id = env.params.url["id"].to_i
+            ret = resource.model.read id
+            env.response.status_code = ret ? 200 : 404
+            ret.to_json
+          end
+        when ActionMethod::UPDATE
+          path = "/#{resource.plural}/:id"
+          block = ->( env : HTTP::Server::Context ) do
+            id = env.params.url["id"].to_i
+            args = env.params.body.to_h  # TODO: let pass only valid fields
+            ret = resource.model.update id, args
+            if ret.nil?
+              env.response.status_code = 404
+            elsif ret == 0
+              env.response.status_code = 400
+            else
+              env.response.status_code = 200
+              { "message": "ok" }.to_json
+            end
+          end
+        when ActionMethod::DELETE
+          path = "/#{resource.plural}/:id"
+          block = ->( env : HTTP::Server::Context ) do
+            id = env.params.url["id"].to_i
+            ret = resource.model.delete id
+            env.response.status_code = ret ? 200 : 404
+            if ret
+              env.response.status_code = 200
+              { "message": "ok" }.to_json
+            else
+              env.response.status_code = 404
+            end
+          end
+        when ActionMethod::LIST
+          path = "/#{resource.plural}"
+          block = ->( env : HTTP::Server::Context ) do
+            ret = resource.model.list.to_json
+            env.response.status_code = 200
+            ret
+          end
+        end
+        unless path.empty?
+          case action.type
+          when ActionType::GET
+            get "#{path}" { |env| block.call env }
+          when ActionType::POST
+            post "#{path}" { |env| block.call env }
+          when ActionType::PUT
+            put "#{path}" { |env| block.call env }
+          when ActionType::PATCH
+            patch "#{path}" { |env| block.call env }
+          when ActionType::DELETE
+            delete "#{path}" { |env| block.call env }
+          end
+          puts "#{action.type} #{path}" if DEBUG
+        end
+      end
+    end
+  end
+end

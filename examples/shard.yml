@@ -1,0 +1,13 @@
+name: examples
+
+version: 0.1.0
+
+dependencies:
+  db:
+    github: crystal-lang/crystal-db
+  kemal:
+    github: kemalcr/kemal
+  kemal-rest-api:
+    github: blocknotes/kemal-rest-api
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3

@@ -1,0 +1,13 @@
+name: kemal-rest-api
+version: 0.1.0
+
+authors:
+  - Mattia Roccoberton <mat@blocknot.es>
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+crystal: 0.20.4
+
+license: MIT
