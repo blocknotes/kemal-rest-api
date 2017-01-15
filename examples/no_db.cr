@@ -1,5 +1,5 @@
 require "kemal"
-require "kemal-rest-api"
+require "../src/*"
 
 struct MyModel < KemalRestApi::Model
   # create: it should return the id of the created row or nil on error

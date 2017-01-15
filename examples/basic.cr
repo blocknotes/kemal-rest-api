@@ -4,7 +4,7 @@
 require "db"
 require "sqlite3"
 require "kemal"
-require "kemal-rest-api"
+require "../src/*"
 
 DB_CONNECTION = "sqlite3:./db.sqlite3"
 

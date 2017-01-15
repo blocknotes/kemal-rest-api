@@ -23,23 +23,23 @@ module KemalRestApi
     DELETE
   end
 
-  before_all do |env|
+  error 400 do |env|
     env.response.content_type = "application/json"
-  end
-
-  error 400 do
     { "message": "Bad Request" }.to_json
   end
 
-  error 401 do
+  error 401 do |env|
+    env.response.content_type = "application/json"
     { "message": "Unauthorized" }.to_json
   end
 
-  error 404 do
+  error 404 do |env|
+    env.response.content_type = "application/json"
     { "message": "Not Found" }.to_json
   end
 
-  error 500 do
+  error 500 do |env|
+    env.response.content_type = "application/json"
     { "message": "Internal Server Error" }.to_json
   end
 end
