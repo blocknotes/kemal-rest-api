@@ -15,8 +15,8 @@ dependencies:
 ## Usage
 
 ```ruby
-require "db"
-require "sqlite3"
+require "db"       # dependency required to use CrystalDbModel
+require "sqlite3"  # dependency required to use CrystalDbModel - alternatives: crystal-mysql, crystal-pg
 require "kemal"
 require "kemal-rest-api"
 
@@ -37,6 +37,10 @@ end
 ## More examples
 
 See [examples](https://github.com/blocknotes/kemal-rest-api/tree/master/examples) folder.
+
+## Notes
+
+*crystal-db* shard is required only if `KemalRestApi::Adapters::CrystalDbModel` is used.
 
 ## Contributors
 
