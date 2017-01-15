@@ -22,7 +22,7 @@ require "kemal-rest-api"
 
 struct MyModel < KemalRestApi::Adapters::CrystalDbModel
   def initialize
-    super DB_CONNECTION, create_table1
+    super "sqlite3:./db.sqlite3", "my_table"
   end
 end
 
