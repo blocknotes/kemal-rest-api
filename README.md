@@ -1,6 +1,8 @@
 # kemal-rest-api [![Build Status](https://travis-ci.org/blocknotes/kemal-rest-api.svg?branch=master)](https://travis-ci.org/blocknotes/kemal-rest-api)
 
-A Crystal library to create REST API with Kemal
+A Crystal library to create REST API with Kemal.
+
+**NOTE**: this is an *alpha* version, a lot of features and security improvements need to be implemented actually
 
 ## Installation
 
