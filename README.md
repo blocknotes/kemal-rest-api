@@ -37,6 +37,7 @@ end
 ```
 
 Generated routes:
+
 - POST /api/items
 - GET /api/items/:id
 - PUT /api/items/:id
@@ -45,9 +46,11 @@ Generated routes:
 
 ## KemalRestApi::Resource options
 
-- *plural*: plural name of the model (String)
-- *prefix*: prefix for all API routes (String)
-- *singular*: singular name of the model (String)
+**plural** (String): plural name of the model, used for routes, default = *singular* pluralized
+
+**prefix** (String): prefix for all API routes, default = ""
+
+**singular** (String): singular name of the model, default = class model name lowercase
 
 ## More examples
 
