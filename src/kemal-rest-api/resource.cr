@@ -15,12 +15,13 @@ module KemalRestApi
     @singular : String
     @plural : String
 
-    getter :actions, :model, :singular, :plural
+    getter :actions, :model, :singular, :prefix, :plural
 
     alias ActionsList = Hash( ActionMethod, ActionType )
 
-    def initialize( @model : Model, actions : ActionsList | Nil = nil, *, singular = "", plural = "" )
+    def initialize( @model : Model, actions : ActionsList = ALL_ACTIONS, *, singular = "", prefix = "", plural = "" )
       @singular = singular.strip.empty? ? typeof( model ).to_s.downcase : singular.strip
+      @prefix = prefix.strip.empty? ? "" : prefix.strip
       @plural = plural.strip.empty? ? Resource.pluralize( @singular ) : plural.strip
       @@resources.push self
       setup_actions! actions

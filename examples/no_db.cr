@@ -28,7 +28,7 @@ struct MyModel < KemalRestApi::Model
   end
 end
 
-KemalRestApi::Resource.new MyModel.new, nil, singular: "item"
+KemalRestApi::Resource.new MyModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
 
 module WebApp
   KemalRestApi.generate_routes!

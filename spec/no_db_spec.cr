@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-struct MyModel < KemalRestApi::Model
+struct NoDbModel < KemalRestApi::Model
   def create( args : Hash(String, String) )
     args ? 8 : nil
   end
@@ -42,7 +42,7 @@ struct MyModel < KemalRestApi::Model
   end
 end
 
-KemalRestApi::Resource.new MyModel.new, nil, singular: "item"
+KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
 
 MSG_NOT_FOUND = "Not Found"
 MSG_OK = "ok"

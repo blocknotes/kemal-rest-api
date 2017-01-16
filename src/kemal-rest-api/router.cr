@@ -69,6 +69,9 @@ module KemalRestApi
             ret
           end
         end
+        unless resource.prefix.empty?
+          path = '/' + resource.prefix + path
+        end
         unless path.empty?
           case action.type
           when ActionType::GET

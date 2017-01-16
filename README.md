@@ -28,25 +28,26 @@ struct MyModel < KemalRestApi::Adapters::CrystalDbModel
   end
 end
 
-KemalRestApi::Resource.new MyModel.new, nil, singular: "item"
+KemalRestApi::Resource.new MyModel.new, KemalRestApi::ALL_ACTIONS, prefix: "api", singular: "item"
 
 module WebApp
   KemalRestApi.generate_routes!
   Kemal.run
 end
-
-## Generated routes:
-# POST /items
-# GET /items/:id
-# PUT /items/:id
-# DELETE /items/:id
-# GET /items
 ```
+
+Generated routes:
+- POST /api/items
+- GET /api/items/:id
+- PUT /api/items/:id
+- DELETE /api/items/:id
+- GET /api/items
 
 ## KemalRestApi::Resource options
 
-- *singular*: singular name of the model
-- *plural*: plural name of the model
+- *plural*: plural name of the model (String)
+- *prefix*: prefix for all API routes (String)
+- *singular*: singular name of the model (String)
 
 ## More examples
 

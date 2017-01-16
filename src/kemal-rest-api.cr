@@ -5,7 +5,7 @@ require "./kemal-rest-api/adapters/*"
 module KemalRestApi
   DEBUG = false
 
-  last_exception = ""
+  ALL_ACTIONS = {} of ActionMethod => ActionType
 
   enum ActionMethod
     CREATE
