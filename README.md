@@ -38,19 +38,21 @@ end
 
 Generated routes:
 
-- POST /api/items
-- GET /api/items/:id
-- PUT /api/items/:id
-- DELETE /api/items/:id
-- GET /api/items
+```
+POST /api/items
+GET /api/items/:id
+PUT /api/items/:id
+DELETE /api/items/:id
+GET /api/items
+```
 
 ## KemalRestApi::Resource options
 
-**plural** (String): plural name of the model, used for routes, default = *singular* pluralized
+- **plural** (String): plural name of the model, used for routes, default = *singular* pluralized
 
-**prefix** (String): prefix for all API routes, default = ""
+- **prefix** (String): prefix for all API routes, default = ""
 
-**singular** (String): singular name of the model, default = class model name lowercase
+- **singular** (String): singular name of the model, default = class model name lowercase
 
 ## More examples
 
