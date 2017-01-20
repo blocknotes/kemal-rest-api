@@ -8,6 +8,12 @@ dependencies:
   kemal:
     github: kemalcr/kemal
 
+development_dependencies:
+  db:
+    github: crystal-lang/crystal-db
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+
 crystal: 0.20.4
 
 license: MIT

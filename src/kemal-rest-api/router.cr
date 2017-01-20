@@ -1,5 +1,4 @@
 require "kemal"
-require "../kemal-rest-api/*"
 
 module KemalRestApi
   def self.generate_routes!

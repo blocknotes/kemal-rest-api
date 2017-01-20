@@ -7,22 +7,6 @@ module KemalRestApi
 
   ALL_ACTIONS = {} of ActionMethod => ActionType
 
-  enum ActionMethod
-    CREATE
-    READ
-    UPDATE
-    DELETE
-    LIST
-  end
-
-  enum ActionType
-    GET
-    POST
-    PUT
-    PATCH
-    DELETE
-  end
-
   error 400 do |env|
     env.response.content_type = "application/json"
     { "message": "Bad Request" }.to_json

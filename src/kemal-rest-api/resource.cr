@@ -44,6 +44,10 @@ module KemalRestApi
       end
     end
 
+    def self.reset!
+      @@resources.clear
+    end
+
     def self.resources
       @@resources
     end
