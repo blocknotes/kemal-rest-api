@@ -11,3 +11,5 @@ dependencies:
     github: blocknotes/kemal-rest-api
   sqlite3:
     github: crystal-lang/crystal-sqlite3
+  mysql:
+    github: crystal-lang/crystal-mysql

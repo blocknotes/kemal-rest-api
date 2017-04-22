@@ -23,7 +23,7 @@ struct Sqlite3Model < KemalRestApi::Adapters::CrystalDbModel
 end
 
 module CrystalDbSpec
-  KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
+  KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, prefix: "api", singular: "test"
 
   # MSG_NOT_FOUND = "Not Found"
   # MSG_OK = "ok"
