@@ -2,4 +2,4 @@ language: crystal
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install sqlite3 -y
+  - sudo apt-get install -y libsqlite3-dev
