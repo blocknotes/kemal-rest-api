@@ -47,9 +47,9 @@ DELETE /api/items/:id
 
 ## KemalRestApi::Resource options
 
-- **plural** (String): plural name of the model, used for routes, default = *singular* pluralized
-- **prefix** (String): prefix for all API routes, default = ""
-- **singular** (String): singular name of the model, default = class model name lowercase
+- **plural** (*String*): plural name of the model, used for routes, default = *singular* pluralized
+- **prefix** (*String*): prefix for all API routes, default = ""
+- **singular** (*String*): singular name of the model, default = class model name lowercase
 
 ## More examples
 
