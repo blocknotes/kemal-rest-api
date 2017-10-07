@@ -13,7 +13,10 @@ development_dependencies:
     github: crystal-lang/crystal-db
   sqlite3:
     github: crystal-lang/crystal-sqlite3
+  spec-kemal:
+    github: kemalcr/spec-kemal
+    branch: master
 
-crystal: 0.20.4
+crystal: 0.23.1
 
 license: MIT

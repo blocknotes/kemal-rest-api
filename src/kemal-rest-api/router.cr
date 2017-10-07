@@ -13,6 +13,7 @@ module KemalRestApi
             args = env.params.body.to_h  # TODO: let pass only valid fields
             ret = resource.model.create args
             env.response.content_type = "application/json"
+            env.response.headers["Connection"] = "close"
             if ret && ret > 0
               env.response.status_code = 201
               { "message": "ok", "id": ret.to_s }.to_json
@@ -27,6 +28,7 @@ module KemalRestApi
             ret = resource.model.read id
             env.response.status_code = ret ? 200 : 404
             env.response.content_type = "application/json"
+            env.response.headers["Connection"] = "close"
             ret.to_json
           end
         when ActionMethod::UPDATE
@@ -36,6 +38,7 @@ module KemalRestApi
             args = env.params.body.to_h  # TODO: let pass only valid fields
             ret = resource.model.update id, args
             env.response.content_type = "application/json"
+            env.response.headers["Connection"] = "close"
             if ret.nil?
               env.response.status_code = 404
             elsif ret == 0
@@ -52,6 +55,7 @@ module KemalRestApi
             ret = resource.model.delete id
             env.response.status_code = ret ? 200 : 404
             env.response.content_type = "application/json"
+            env.response.headers["Connection"] = "close"
             if ret
               env.response.status_code = 200
               { "message": "ok" }.to_json
@@ -65,6 +69,7 @@ module KemalRestApi
             ret = resource.model.list.to_json
             env.response.status_code = 200
             env.response.content_type = "application/json"
+            env.response.headers["Connection"] = "close"
             ret
           end
         end
