@@ -2,7 +2,7 @@
 
 A Crystal library to create REST API with Kemal.
 
-**NOTE**: this is an *alpha* version, a lot of features and security improvements need to be implemented actually
+**NOTE**: this is a *beta* version, a lot of features and security improvements need to be implemented actually
 
 ## Installation
 
