@@ -50,9 +50,17 @@ module NoDbSpec
   MSG_OK        = "ok"
 
   describe KemalRestApi do
+    # Spec.before_each do
+    #   KemalRestApi.generate_routes!
+    # end
+
+    # Spec.after_each do
+    #   KemalRestApi::Resource.reset!
+    # end
+
     context "success responses" do
       it "should create an item" do
-        post "/items"
+        post "/items", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(201)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
@@ -61,7 +69,7 @@ module NoDbSpec
       end
 
       it "should read an item" do
-        get "/items/8"
+        get "/items/8", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
@@ -71,7 +79,7 @@ module NoDbSpec
       end
 
       it "should update an item" do
-        put "/items/8"
+        put "/items/8", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
@@ -79,7 +87,7 @@ module NoDbSpec
       end
 
       it "should delete an item" do
-        delete "/items/8"
+        delete "/items/8", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
@@ -87,7 +95,7 @@ module NoDbSpec
       end
 
       it "should list 3 items" do
-        get "/items"
+        get "/items", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
@@ -97,7 +105,7 @@ module NoDbSpec
 
     context "not_found responses" do
       it "should not read an item" do
-        get "/items/12"
+        get "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
         # json = JSON.parse response.body
@@ -105,7 +113,7 @@ module NoDbSpec
       end
 
       it "should not update an item" do
-        put "/items/12"
+        put "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
         # json = JSON.parse response.body
@@ -113,7 +121,7 @@ module NoDbSpec
       end
 
       it "should not delete an item" do
-        delete "/items/12"
+        delete "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
         # json = JSON.parse response.body
@@ -122,14 +130,7 @@ module NoDbSpec
     end
 
     # context "with invalid responses" do
-    #   it "should not delete an item" do
-    #     request = HTTP::Request.new "DELETE", "/items/4"
-    #     response = call_request_on_app request
-    #     response.status_code.should eq( 400 )
-    #     response.headers["Content-Type"]?.should eq( "application/json" )
-    #     json = JSON.parse response.body
-    #     json["message"]?.should eq( MSG_NOT_FOUND )
-    #   end
+    # ...
     # end
   end
 
