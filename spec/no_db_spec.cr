@@ -43,8 +43,8 @@ struct NoDbModel < KemalRestApi::Model
 end
 
 module NoDbSpec
-  KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
-  KemalRestApi.generate_routes!
+  res = KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
+  res.generate_routes!
 
   MSG_NOT_FOUND = "Not Found"
   MSG_OK        = "ok"
@@ -134,5 +134,5 @@ module NoDbSpec
     # end
   end
 
-  KemalRestApi::Resource.reset!
+  res.reset!
 end

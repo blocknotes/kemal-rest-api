@@ -37,9 +37,9 @@
 
 # module CrystalDbSpec
 #   # , prefix: "api"
-#   KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
+#   res = KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
+#   res.generate_routes!
 #   insert_some_data
-#   KemalRestApi.generate_routes!
 
 #   MSG_NOT_FOUND = "Not Found"
 #   MSG_OK        = "ok"
@@ -95,5 +95,5 @@
 #     end
 #   end
 
-#   KemalRestApi::Resource.reset!
+#   res.reset!
 # end
