@@ -2,8 +2,12 @@ require "kemal"
 require "../src/*"
 
 class MyModel < KemalRestApi::Model
+  def prepare_params(env : HTTP::Server::Context, *, json = true) : Hash(String, String)
+    Hash(String, String).new
+  end
+
   # create: it should return the id of the created row or nil on error
-  def create(args : Hash(String, String) | String)
+  def create(args : Hash(String, String))
     (rand > 0.5) ? rand(100) : nil
   end
 
@@ -13,7 +17,7 @@ class MyModel < KemalRestApi::Model
   end
 
   # update: it should return the affected rows or nil on error
-  def update(id : Int, args : Hash(String, String) | String)
+  def update(id : Int, args : Hash(String, String))
     (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
   end
 

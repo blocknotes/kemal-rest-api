@@ -12,7 +12,7 @@ module KemalRestApi
             path = "/#{resource.plural}"
             block = ->(env : HTTP::Server::Context) do
               # TODO: let pass only valid fields
-              ret = resource.model.create @option_json ? env.params.json.to_json : env.params.body.to_h
+              ret = resource.model.create resource.model.prepare_params(env, json: @option_json)
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
               if ret && ret > 0
@@ -38,7 +38,7 @@ module KemalRestApi
             block = ->(env : HTTP::Server::Context) do
               id = env.params.url["id"].to_i
               # TODO: let pass only valid fields
-              ret = resource.model.update id, @option_json ? env.params.json.to_json : env.params.body.to_h
+              ret = resource.model.update id, resource.model.prepare_params(env, json: @option_json)
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
               if ret.nil?

@@ -60,6 +60,8 @@ See [examples](https://github.com/blocknotes/kemal-rest-api/tree/master/examples
 
 *crystal-db* shard is required only if `KemalRestApi::Adapters::CrystalDbModel` is used.
 
+The proposed adapters are basic implementations, you can create easily a model adapter that responds better to your needs. *prepare_params* is used to adjust the create/update parameters.
+
 ## Contributors
 
 - [Mattia Roccoberton](http://blocknot.es) - creator, maintainer, Crystal fan :)

@@ -2,7 +2,11 @@ require "./spec_helper"
 
 module NoDbSpec
   class NoDbModel < KemalRestApi::Model
-    def create(args : Hash(String, String) | String)
+    def prepare_params(env : HTTP::Server::Context, *, json = true) : Hash(String, String)
+      Hash(String, String).new
+    end
+
+    def create(args : Hash(String, String))
       args ? 8 : nil
     end
 
@@ -14,7 +18,7 @@ module NoDbSpec
       end
     end
 
-    def update(id : Int, args : Hash(String, String) | String)
+    def update(id : Int, args : Hash(String, String))
       if id > 10
         nil
       elsif id > 5
