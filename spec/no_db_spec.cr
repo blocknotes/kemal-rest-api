@@ -1,62 +1,60 @@
 require "./spec_helper"
 
-struct NoDbModel < KemalRestApi::Model
-  def create(args : Hash(String, String) | String)
-    args ? 8 : nil
-  end
-
-  def read(id : Int)
-    if id > 10
-      nil
-    else
-      {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
-    end
-  end
-
-  def update(id : Int, args : Hash(String, String) | String)
-    if id > 10
-      nil
-    elsif id > 5
-      1
-    else
-      0
-    end
-  end
-
-  def delete(id : Int)
-    if id > 10
-      nil
-    elsif id > 5
-      1
-    else
-      0
-    end
-  end
-
-  def list
-    items = [] of Hash(String, String)
-    3.times do
-      items.push({"title" => "Item #{rand(100)}", "num" => "#{rand(100)}"}.to_h)
-    end
-    items
-  end
-end
-
 module NoDbSpec
-  res = KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
-  res.generate_routes!
+  struct NoDbModel < KemalRestApi::Model
+    def create(args : Hash(String, String) | String)
+      args ? 8 : nil
+    end
 
-  MSG_NOT_FOUND = "Not Found"
-  MSG_OK        = "ok"
+    def read(id : Int)
+      if id > 10
+        nil
+      else
+        {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
+      end
+    end
+
+    def update(id : Int, args : Hash(String, String) | String)
+      if id > 10
+        nil
+      elsif id > 5
+        1
+      else
+        0
+      end
+    end
+
+    def delete(id : Int)
+      if id > 10
+        nil
+      elsif id > 5
+        1
+      else
+        0
+      end
+    end
+
+    def list
+      items = [] of Hash(String, String)
+      3.times do
+        items.push({"title" => "Item #{rand(100)}", "num" => "#{rand(100)}"}.to_h)
+      end
+      items
+    end
+  end
+
+  res = KemalRestApi::Resource.new NoDbModel.new
 
   describe KemalRestApi do
-    # Spec.before_each do
-    #   KemalRestApi.generate_routes!
-    # end
+    Spec.before_each do
+      Kemal::RouteHandler::INSTANCE.http_routes = Radix::Tree(Kemal::Route).new
+      res = KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
+      res.generate_routes!
+    end
 
-    # Spec.after_each do
-    #   KemalRestApi::Resource.reset!
-    # end
+    Spec.after_each do
+      res.reset!
+    end
 
     context "success responses" do
       it "should create an item" do
@@ -64,7 +62,7 @@ module NoDbSpec
         response.status_code.should eq(201)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
-        json["message"]?.should eq(MSG_OK)
+        json["status"]?.should eq(MSG_OK)
         (json["id"]?.to_s.size > 0).should eq(true)
       end
 
@@ -83,7 +81,7 @@ module NoDbSpec
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
-        json["message"]?.should eq(MSG_OK)
+        json["status"]?.should eq(MSG_OK)
       end
 
       it "should delete an item" do
@@ -91,7 +89,7 @@ module NoDbSpec
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
         json = JSON.parse response.body
-        json["message"]?.should eq(MSG_OK)
+        json["status"]?.should eq(MSG_OK)
       end
 
       it "should list 3 items" do
@@ -108,24 +106,18 @@ module NoDbSpec
         get "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
-        # json = JSON.parse response.body
-        # json["message"]?.should eq(MSG_NOT_FOUND)
       end
 
       it "should not update an item" do
         put "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
-        # json = JSON.parse response.body
-        # json["message"]?.should eq(MSG_NOT_FOUND)
       end
 
       it "should not delete an item" do
         delete "/items/12", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(404)
         response.headers["Content-Type"]?.should eq("application/json")
-        # json = JSON.parse response.body
-        # json["message"]?.should eq(MSG_NOT_FOUND)
       end
     end
 
@@ -133,6 +125,4 @@ module NoDbSpec
     # ...
     # end
   end
-
-  res.reset!
 end

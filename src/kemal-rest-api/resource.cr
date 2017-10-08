@@ -29,13 +29,13 @@ module KemalRestApi
       setup_actions! actions
     end
 
+    def set_options(*, json = true)
+      @option_json = json
+    end
+
     def reset!
       @resources.clear
     end
-
-    # def resources
-    #   @resources
-    # end
 
     def self.pluralize(string)
       case string
