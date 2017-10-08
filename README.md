@@ -47,6 +47,7 @@ DELETE /api/items/:id
 
 ## KemalRestApi::Resource options
 
+- **json** (*Bool*): form payload as JSON instead of formdata, default = true
 - **plural** (*String*): plural name of the model, used for routes, default = *singular* pluralized
 - **prefix** (*String*): prefix for all API routes, default = ""
 - **singular** (*String*): singular name of the model, default = class model name lowercase

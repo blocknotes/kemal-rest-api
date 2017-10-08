@@ -37,6 +37,7 @@
 
 # module CrystalDbSpec
 #   # , prefix: "api"
+#   # res = KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, json: false, singular: "item"
 #   res = KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
 #   res.generate_routes!
 #   insert_some_data
@@ -51,7 +52,8 @@
 
 #     context "success responses" do
 #       it "should create an item" do
-#         post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         # post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/json"}, body: %({"name":"Mat","age":39})
 #         response.status_code.should eq(201)
 #         response.headers["Content-Type"]?.should eq("application/json")
 #         json = JSON.parse response.body
@@ -70,7 +72,8 @@
 #       end
 
 #       it "should update an item" do
-#         put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         # put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/json"}, body: %({"name":"Yle","age":32})
 #         response.status_code.should eq(200)
 #         response.headers["Content-Type"]?.should eq("application/json")
 #         json = JSON.parse response.body

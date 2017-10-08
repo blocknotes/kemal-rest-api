@@ -14,15 +14,17 @@ module KemalRestApi
     @actions = [] of Action
     @singular : String
     @plural : String
+    @option_json : Bool
 
     getter :actions, :model, :singular, :prefix, :plural
 
     alias ActionsList = Hash(ActionMethod, ActionType)
 
-    def initialize(@model : Model, actions : ActionsList = ALL_ACTIONS, *, singular = "", prefix = "", plural = "")
+    def initialize(@model : Model, actions : ActionsList = ALL_ACTIONS, *, json = true, plural = "", prefix = "", singular = "")
       @singular = singular.strip.empty? ? typeof(model).to_s.downcase : singular.strip
       @prefix = prefix.strip.empty? ? "" : prefix.strip
       @plural = plural.strip.empty? ? Resource.pluralize(@singular) : plural.strip
+      @option_json = json
       @resources.push self
       setup_actions! actions
     end

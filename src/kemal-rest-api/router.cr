@@ -11,7 +11,15 @@ module KemalRestApi
           when ActionMethod::CREATE
             path = "/#{resource.plural}"
             block = ->(env : HTTP::Server::Context) do
-              args = env.params.body.to_h # TODO: let pass only valid fields
+              # TODO: let pass only valid fields
+              if @option_json
+                args = Hash(String, String).new
+                env.params.json.each do |k, v|
+                  args[k] = v.to_s
+                end
+              else
+                args = env.params.body.to_h
+              end
               ret = resource.model.create args
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
@@ -36,7 +44,15 @@ module KemalRestApi
             path = "/#{resource.plural}/:id"
             block = ->(env : HTTP::Server::Context) do
               id = env.params.url["id"].to_i
-              args = env.params.body.to_h # TODO: let pass only valid fields
+              # TODO: let pass only valid fields
+              if @option_json
+                args = Hash(String, String).new
+                env.params.json.each do |k, v|
+                  args[k] = v.to_s
+                end
+              else
+                args = env.params.body.to_h
+              end
               ret = resource.model.update id, args
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
