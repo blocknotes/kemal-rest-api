@@ -3,7 +3,7 @@
 # require "./spec_helper"
 
 # struct NoDbModel < KemalRestApi::Model
-#   def create(args : Hash(String, String))
+#   def create(args : Hash(String, String) | String)
 #     rand(100)
 #   end
 
@@ -11,7 +11,7 @@
 #     {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
 #   end
 
-#   def update(id : Int, args : Hash(String, String))
+#   def update(id : Int, args : Hash(String, String) | String)
 #     1
 #   end
 

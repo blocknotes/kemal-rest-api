@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 struct NoDbModel < KemalRestApi::Model
-  def create(args : Hash(String, String))
+  def create(args : Hash(String, String) | String)
     args ? 8 : nil
   end
 
@@ -13,7 +13,7 @@ struct NoDbModel < KemalRestApi::Model
     end
   end
 
-  def update(id : Int, args : Hash(String, String))
+  def update(id : Int, args : Hash(String, String) | String)
     if id > 10
       nil
     elsif id > 5

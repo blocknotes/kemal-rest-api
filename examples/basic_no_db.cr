@@ -3,7 +3,7 @@ require "../src/*"
 
 struct MyModel < KemalRestApi::Model
   # create: it should return the id of the created row or nil on error
-  def create(args : Hash(String, String))
+  def create(args : Hash(String, String) | String)
     (rand > 0.5) ? rand(100) : nil
   end
 
@@ -13,7 +13,7 @@ struct MyModel < KemalRestApi::Model
   end
 
   # update: it should return the affected rows or nil on error
-  def update(id : Int, args : Hash(String, String))
+  def update(id : Int, args : Hash(String, String) | String)
     (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
   end
 

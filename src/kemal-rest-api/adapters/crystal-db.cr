@@ -2,28 +2,37 @@ require "../resource"
 
 module KemalRestApi::Adapters
   abstract struct CrystalDbModel < Model
-    def initialize( @db_connection : String, @table_name : String )
+    def initialize(@db_connection : String, @table_name : String)
     end
 
-    def create( args : Hash( String, String ) )
+    # def create( args : Hash( String, String ) )
+    def create(args : Hash(String, String) | String)
       DB.open @db_connection do |db|
-        if args.empty?
+        if args.empty? || args == "{}"
           return 0
         else
-          v = "?" + ",?" * ( args.size - 1 )
-          result = db.exec "INSERT INTO #{@table_name}( #{args.keys.join( "," )} ) VALUES( #{v} )", args.values
+          if (args_ = args).class == Hash(String, String)
+            data = args.as(Hash(String, String))
+          else
+            data = Hash(String, String).new
+            JSON.parse(args.as(String)).each do |k, v|
+              data[k.to_s] = v.to_s
+            end
+          end
+          v = "?" + ",?" * (data.size - 1)
+          result = db.exec "INSERT INTO #{@table_name}( #{data.keys.join(",")} ) VALUES( #{v} )", data.values
           return result.last_insert_id if result
         end
       end
       nil
     end
 
-    def read( id : Int )
+    def read(id : Int)
       DB.open @db_connection do |db|
         db.query "SELECT * FROM #{@table_name} WHERE id = ?", id do |rs|
           rs.each do
             item = {} of String => String
-            rs.each_column { |col| item[col] = ( val = rs.read ) ? val.to_s : "" }
+            rs.each_column { |col| item[col] = (val = rs.read) ? val.to_s : "" }
             return item
           end
         end
@@ -31,16 +40,24 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def update( id : Int, args : Hash( String, String ) )
+    def update(id : Int, args : Hash(String, String) | String)
       DB.open @db_connection do |db|
         found = false
-        db.query( "SELECT * FROM #{@table_name} WHERE id = ?", id ) { |rs| found = rs.move_next }
+        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id) { |rs| found = rs.move_next }
         if found
-          if args.empty?
+          if args.empty? || args == "{}"
             return 0
           else
-            fields = args.map { |k, v| "#{k} = ?" }.join( ", " )
-            ret = db.exec "UPDATE #{@table_name} SET #{fields} WHERE id = #{id}", args.values
+            if (args_ = args).class == Hash(String, String)
+              data = args.as(Hash(String, String))
+            else
+              data = Hash(String, String).new
+              JSON.parse(args.as(String)).each do |k, v|
+                data[k.to_s] = v.to_s
+              end
+            end
+            fields = data.map { |k, v| "#{k} = ?" }.join(", ")
+            ret = db.exec "UPDATE #{@table_name} SET #{fields} WHERE id = #{id}", data.values
             return ret.rows_affected if ret
           end
         end
@@ -48,10 +65,10 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def delete( id : Int )
+    def delete(id : Int)
       DB.open @db_connection do |db|
         found = false
-        db.query( "SELECT * FROM #{@table_name} WHERE id = ?", id ) { |rs| found = rs.move_next }
+        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id) { |rs| found = rs.move_next }
         if found
           ret = db.exec "DELETE FROM #{@table_name} WHERE id = ?", id
           return ret.rows_affected if ret
@@ -61,12 +78,12 @@ module KemalRestApi::Adapters
     end
 
     def list
-      items = [] of Hash( String, String )
+      items = [] of Hash(String, String)
       DB.open @db_connection do |db|
         db.query "SELECT * FROM #{@table_name}" do |rs|
           rs.each do
             item = {} of String => String
-            rs.each_column { |col| item[col] = ( val = rs.read ) ? val.to_s : "" }
+            rs.each_column { |col| item[col] = (val = rs.read) ? val.to_s : "" }
             items.push item
           end
         end

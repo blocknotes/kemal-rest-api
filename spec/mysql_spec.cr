@@ -50,7 +50,8 @@
 
 #     context "success responses" do
 #       it "should create an item" do
-#         post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         # post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Boh&age=123"
+#         post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/json"}, body: {"name": "Boh", "age": 123}.to_json
 #         response.status_code.should eq(201)
 #         response.headers["Content-Type"]?.should eq("application/json")
 #         json = JSON.parse response.body
@@ -69,7 +70,8 @@
 #       end
 
 #       it "should update an item" do
-#         put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Mat&age=39"
+#         # put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Boh&age=124"
+#         put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/json"}, body: {"name": "Yle", "age": 32}.to_json
 #         response.status_code.should eq(200)
 #         response.headers["Content-Type"]?.should eq("application/json")
 #         json = JSON.parse response.body
