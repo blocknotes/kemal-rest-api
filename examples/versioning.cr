@@ -28,7 +28,7 @@ struct MyModel < KemalRestApi::Model
 end
 
 module WebApp
-  res = KemalRestApi::Resource.new MyModel.new, KemalRestApi::ALL_ACTIONS, prefix: "api", singular: "item"
+  res = KemalRestApi::Resource.new MyModel.new, KemalRestApi::ALL_ACTIONS, prefix: "api/v1", singular: "item"
   res.generate_routes!
   Kemal.run
 end
