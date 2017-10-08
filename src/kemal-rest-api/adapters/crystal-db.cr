@@ -5,24 +5,19 @@ module KemalRestApi::Adapters
     def initialize(@db_connection : String, @table_name : String)
     end
 
-    # def create( args : Hash( String, String ) )
     def create(args : Hash(String, String) | String)
       DB.open @db_connection do |db|
-        if args.empty? || args == "{}"
-          return 0
+        if (args_ = args).class == Hash(String, String)
+          data = args.as(Hash(String, String))
         else
-          if (args_ = args).class == Hash(String, String)
-            data = args.as(Hash(String, String))
-          else
-            data = Hash(String, String).new
-            JSON.parse(args.as(String)).each do |k, v|
-              data[k.to_s] = v.to_s
-            end
+          data = Hash(String, String).new
+          JSON.parse(args.as(String)).each do |k, v|
+            data[k.to_s] = v.to_s
           end
-          v = "?" + ",?" * (data.size - 1)
-          result = db.exec "INSERT INTO #{@table_name}( #{data.keys.join(",")} ) VALUES( #{v} )", data.values
-          return result.last_insert_id if result
         end
+        return 0 if data.empty?
+        result = db.exec "INSERT INTO #{@table_name}( #{data.keys.join(",")} ) VALUES( #{(["?"] * data.size).join(",")} )", data.values
+        return result.last_insert_id if result
       end
       nil
     end
@@ -45,21 +40,18 @@ module KemalRestApi::Adapters
         found = false
         db.query("SELECT * FROM #{@table_name} WHERE id = ?", id) { |rs| found = rs.move_next }
         if found
-          if args.empty? || args == "{}"
-            return 0
+          if (args_ = args).class == Hash(String, String)
+            data = args.as(Hash(String, String))
           else
-            if (args_ = args).class == Hash(String, String)
-              data = args.as(Hash(String, String))
-            else
-              data = Hash(String, String).new
-              JSON.parse(args.as(String)).each do |k, v|
-                data[k.to_s] = v.to_s
-              end
+            data = Hash(String, String).new
+            JSON.parse(args.as(String)).each do |k, v|
+              data[k.to_s] = v.to_s
             end
-            fields = data.map { |k, v| "#{k} = ?" }.join(", ")
-            ret = db.exec "UPDATE #{@table_name} SET #{fields} WHERE id = #{id}", data.values
-            return ret.rows_affected if ret
           end
+          return 0 if data.empty?
+          fields = data.map { |k, v| "#{k} = ?" }.join(", ")
+          ret = db.exec "UPDATE #{@table_name} SET #{fields} WHERE id = #{id}", data.values
+          return ret.rows_affected if ret
         end
       end
       nil
