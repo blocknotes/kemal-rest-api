@@ -10,7 +10,7 @@ module MySQLSpec
 
   struct MySQLModel < KemalRestApi::Adapters::CrystalDbModel
     def initialize
-      super MYSQL_DB_CONNECTION, create_table
+      super MYSQL_DB_CONNECTION, prepare
       # Insert some data
       DB.open MYSQL_DB_CONNECTION do |db|
         10.times do
@@ -19,7 +19,20 @@ module MySQLSpec
       end
     end
 
-    def create_table
+    def prepare
+      prepare_db
+      prepare_table
+    end
+
+    def prepare_db
+      DB.open MYSQL_DB_CONNECTION do |db|
+        if db.scalar("SELECT COUNT(*) FROM information_schema.tables WHERE TABLE_SCHEMA = '#{MYSQL_DB_NAME}'") == 0
+          db.exec "CREATE DATABASE #{MYSQL_DB_NAME}"
+        end
+      end
+    end
+
+    def prepare_table
       DB.open MYSQL_DB_CONNECTION do |db|
         if db.scalar("SELECT COUNT(*) FROM information_schema.tables WHERE TABLE_SCHEMA = '#{MYSQL_DB_NAME}' AND TABLE_NAME = '#{MYSQL_DB_TABLE}'") == 0
           puts "> Create table #{MYSQL_DB_TABLE}"
