@@ -6,7 +6,8 @@ require "mysql"
 module MySQLSpec
   MYSQL_DB_NAME       = "test"
   MYSQL_DB_TABLE      = "items"
-  MYSQL_DB_CONNECTION = "mysql://root@localhost/#{MYSQL_DB_NAME}"
+  MYSQL_DB_URL        = "mysql://root@localhost/"
+  MYSQL_DB_CONNECTION = "#{MYSQL_DB_URL}#{MYSQL_DB_NAME}"
 
   struct MySQLModel < KemalRestApi::Adapters::CrystalDbModel
     def initialize
@@ -25,7 +26,7 @@ module MySQLSpec
     end
 
     def prepare_db
-      DB.open MYSQL_DB_CONNECTION do |db|
+      DB.open MYSQL_DB_URL do |db|
         if db.scalar("SELECT COUNT(*) FROM information_schema.tables WHERE TABLE_SCHEMA = '#{MYSQL_DB_NAME}'") == 0
           db.exec "CREATE DATABASE #{MYSQL_DB_NAME}"
         end
