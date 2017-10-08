@@ -142,6 +142,4 @@ module MySQLSpec
       end
     end
   end
-
-  res.reset!
 end

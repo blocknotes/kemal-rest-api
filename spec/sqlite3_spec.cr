@@ -38,7 +38,6 @@ module SQLite3Spec
     Spec.before_each do
       Kemal::RouteHandler::INSTANCE.http_routes = Radix::Tree(Kemal::Route).new
       res = KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
-      # res.set_options(json: false)
       res.generate_routes!
     end
 
@@ -56,15 +55,6 @@ module SQLite3Spec
         (json["id"]?.to_s.size > 0).should eq(true)
       end
 
-      # it "should create an item (using formdata)" do
-      #   post "/items", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Boh&age=123"
-      #   response.status_code.should eq(201)
-      #   response.headers["Content-Type"]?.should eq("application/json")
-      #   json = JSON.parse response.body
-      #   json["status"]?.should eq(MSG_OK)
-      #   (json["id"]?.to_s.size > 0).should eq(true)
-      # end
-
       it "should read an item" do
         get "/items/8", headers: HTTP::Headers{"Accept" => "application/json"}
         response.status_code.should eq(200)
@@ -76,7 +66,6 @@ module SQLite3Spec
       end
 
       it "should update an item" do
-        # put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/x-www-form-urlencoded"}, body: "name=Boh&age=124"
         put "/items/8", headers: HTTP::Headers{"Accept" => "application/json", "Content-Type" => "application/json"}, body: %({"name":"Yle","age":32})
         response.status_code.should eq(200)
         response.headers["Content-Type"]?.should eq("application/json")
@@ -136,7 +125,5 @@ module SQLite3Spec
         json["status"]?.should eq(MSG_ERROR)
       end
     end
-
-    res.reset!
   end
 end
