@@ -22,7 +22,7 @@ require "sqlite3"  # dependency required to use CrystalDbModel - alternatives: c
 require "kemal"
 require "kemal-rest-api"
 
-struct MyModel < KemalRestApi::Adapters::CrystalDbModel
+class MyModel < KemalRestApi::Adapters::CrystalDbModel
   def initialize
     super "sqlite3:./db.sqlite3", "my_table"
   end
@@ -59,6 +59,8 @@ See [examples](https://github.com/blocknotes/kemal-rest-api/tree/master/examples
 ## Notes
 
 *crystal-db* shard is required only if `KemalRestApi::Adapters::CrystalDbModel` is used.
+
+The proposed adapters are basic implementations, you can create easily a model adapter that responds better to your needs. *prepare_params* is used to adjust the create/update parameters.
 
 ## Contributors
 

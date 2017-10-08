@@ -15,11 +15,11 @@ module KemalRestApi
     DELETE
   end
 
-  struct Action
+  class Action
     property :method
     property :type
 
-    def initialize( @method : ActionMethod, @type : ActionType )
+    def initialize(@method : ActionMethod, @type : ActionType)
     end
   end
 end

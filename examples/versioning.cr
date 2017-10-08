@@ -1,7 +1,11 @@
 require "kemal"
 require "../src/*"
 
-struct MyModel < KemalRestApi::Model
+class MyModel < KemalRestApi::Model
+  def prepare_params(env : HTTP::Server::Context, *, json = true) : Hash(String, String)
+    Hash(String, String).new
+  end
+
   def create(args : Hash(String, String) | String)
     rand(100)
   end

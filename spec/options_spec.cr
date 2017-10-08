@@ -1,8 +1,12 @@
 require "./spec_helper"
 
 module OptionsSpec
-  struct NoDbModel < KemalRestApi::Model
-    def create(args : Hash(String, String) | String)
+  class NoDbModel < KemalRestApi::Model
+    def prepare_params(env : HTTP::Server::Context, *, json = true) : Hash(String, String)
+      Hash(String, String).new
+    end
+
+    def create(args : Hash(String, String))
       rand(100)
     end
 
@@ -10,7 +14,7 @@ module OptionsSpec
       {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
     end
 
-    def update(id : Int, args : Hash(String, String) | String)
+    def update(id : Int, args : Hash(String, String))
       1
     end
 

@@ -1,15 +1,18 @@
 require "./action"
 
 module KemalRestApi
-  abstract struct Model
-    abstract def create(args : Hash(String, String) | String) : Int | Nil
+  abstract class Model
+    # actions
+    abstract def create(args : Hash(String, String)) : Int | Nil
     abstract def read(id : Int) : Hash(String, String) | Nil
-    abstract def update(id : Int, args : Hash(String, String) | String) : Int | Nil
+    abstract def update(id : Int, args : Hash(String, String)) : Int | Nil
     abstract def delete(id : Int) : Int | Nil
     abstract def list : Array(Hash(String, String))
+    # misc
+    abstract def prepare_params(env : HTTP::Server::Context, *, json = true) : Hash(String, String)
   end
 
-  struct Resource
+  class Resource
     @resources = [] of Resource
     @actions = [] of Action
     @singular : String
