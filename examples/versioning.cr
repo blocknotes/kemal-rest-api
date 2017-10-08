@@ -2,25 +2,25 @@ require "kemal"
 require "../src/*"
 
 struct MyModel < KemalRestApi::Model
-  def create(args : Hash(String, String))
-    (rand > 0.5) ? rand(100) : nil
+  def create(args : Hash(String, String) | String)
+    rand(100)
   end
 
   def read(id : Int)
-    (rand > 0.5) ? {"title": "Item #{rand(100)}", "num": "#{rand(100)}"} : nil
+    {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
   end
 
-  def update(id : Int, args : Hash(String, String))
-    (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
+  def update(id : Int, args : Hash(String, String) | String)
+    1
   end
 
   def delete(id : Int)
-    (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
+    1
   end
 
   def list
     items = [] of Hash(String, String)
-    rand(5).times do
+    3.times do
       items.push({"title" => "Item #{rand(100)}", "num" => "#{rand(100)}"}.to_h)
     end
     items

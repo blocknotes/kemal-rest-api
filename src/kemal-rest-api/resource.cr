@@ -2,9 +2,9 @@ require "./action"
 
 module KemalRestApi
   abstract struct Model
-    abstract def create(args : Hash(String, String)) : Int | Nil
+    abstract def create(args : Hash(String, String) | String) : Int | Nil
     abstract def read(id : Int) : Hash(String, String) | Nil
-    abstract def update(id : Int, args : Hash(String, String)) : Int | Nil
+    abstract def update(id : Int, args : Hash(String, String) | String) : Int | Nil
     abstract def delete(id : Int) : Int | Nil
     abstract def list : Array(Hash(String, String))
   end
@@ -29,13 +29,13 @@ module KemalRestApi
       setup_actions! actions
     end
 
+    def set_options(*, json = true)
+      @option_json = json
+    end
+
     def reset!
       @resources.clear
     end
-
-    # def resources
-    #   @resources
-    # end
 
     def self.pluralize(string)
       case string

@@ -1,6 +1,11 @@
 require "kemal"
 
 module KemalRestApi
+  class JSONresponse
+    def initialize(@response : JSON::Any | Nil)
+    end
+  end
+
   struct Resource
     def generate_routes!
       @resources.each do |resource|
@@ -12,22 +17,15 @@ module KemalRestApi
             path = "/#{resource.plural}"
             block = ->(env : HTTP::Server::Context) do
               # TODO: let pass only valid fields
-              if @option_json
-                args = Hash(String, String).new
-                env.params.json.each do |k, v|
-                  args[k] = v.to_s
-                end
-              else
-                args = env.params.body.to_h
-              end
-              ret = resource.model.create args
+              ret = resource.model.create @option_json ? env.params.json.to_json : env.params.body.to_h
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
               if ret && ret > 0
                 env.response.status_code = 201
-                {"message": "ok", "id": ret.to_s}.to_json
+                {"status": "ok", "id": ret.to_s}.to_json
               else
                 env.response.status_code = 400
+                {"status": "error", "message": "bad_request"}.to_json
               end
             end
           when ActionMethod::READ
@@ -45,24 +43,18 @@ module KemalRestApi
             block = ->(env : HTTP::Server::Context) do
               id = env.params.url["id"].to_i
               # TODO: let pass only valid fields
-              if @option_json
-                args = Hash(String, String).new
-                env.params.json.each do |k, v|
-                  args[k] = v.to_s
-                end
-              else
-                args = env.params.body.to_h
-              end
-              ret = resource.model.update id, args
+              ret = resource.model.update id, @option_json ? env.params.json.to_json : env.params.body.to_h
               env.response.content_type = "application/json"
               env.response.headers["Connection"] = "close"
               if ret.nil?
                 env.response.status_code = 404
+                {"status": "error", "message": "not_found"}.to_json
               elsif ret == 0
                 env.response.status_code = 400
+                {"status": "error", "message": "bad_request"}.to_json
               else
                 env.response.status_code = 200
-                {"message": "ok"}.to_json
+                {"status": "ok"}.to_json
               end
             end
           when ActionMethod::DELETE
@@ -75,9 +67,10 @@ module KemalRestApi
               env.response.headers["Connection"] = "close"
               if ret
                 env.response.status_code = 200
-                {"message": "ok"}.to_json
+                {"status": "ok"}.to_json
               else
                 env.response.status_code = 404
+                {"status": "error", "message": "not_found"}.to_json
               end
             end
           when ActionMethod::LIST
@@ -100,7 +93,7 @@ module KemalRestApi
                 begin
                   block.call env
                 rescue ex : Exception
-                  {"error": ex.message}.to_json
+                  {"status": "error", "message": ex.message}.to_json
                 end
               end
             when ActionType::POST
@@ -108,7 +101,7 @@ module KemalRestApi
                 begin
                   block.call env
                 rescue ex : Exception
-                  {"error": ex.message}.to_json
+                  {"status": "error", "message": ex.message}.to_json
                 end
               end
             when ActionType::PUT
@@ -116,7 +109,7 @@ module KemalRestApi
                 begin
                   block.call env
                 rescue ex : Exception
-                  {"error": ex.message}.to_json
+                  {"status": "error", "message": ex.message}.to_json
                 end
               end
             when ActionType::PATCH
@@ -124,7 +117,7 @@ module KemalRestApi
                 begin
                   block.call env
                 rescue ex : Exception
-                  {"error": ex.message}.to_json
+                  {"status": "error", "message": ex.message}.to_json
                 end
               end
             when ActionType::DELETE
@@ -132,7 +125,7 @@ module KemalRestApi
                 begin
                   block.call env
                 rescue ex : Exception
-                  {"error": ex.message}.to_json
+                  {"status": "error", "message": ex.message}.to_json
                 end
               end
             end
