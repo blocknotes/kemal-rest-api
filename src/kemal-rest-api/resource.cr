@@ -1,7 +1,7 @@
 require "./action"
 
 module KemalRestApi
-  abstract struct Model
+  abstract class Model
     abstract def create(args : Hash(String, String) | String) : Int | Nil
     abstract def read(id : Int) : Hash(String, String) | Nil
     abstract def update(id : Int, args : Hash(String, String) | String) : Int | Nil
@@ -9,7 +9,7 @@ module KemalRestApi
     abstract def list : Array(Hash(String, String))
   end
 
-  struct Resource
+  class Resource
     @resources = [] of Resource
     @actions = [] of Action
     @singular : String

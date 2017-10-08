@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 module NoDbSpec
-  struct NoDbModel < KemalRestApi::Model
+  class NoDbModel < KemalRestApi::Model
     def create(args : Hash(String, String) | String)
       args ? 8 : nil
     end

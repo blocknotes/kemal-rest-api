@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 module OptionsSpec
-  struct NoDbModel < KemalRestApi::Model
+  class NoDbModel < KemalRestApi::Model
     def create(args : Hash(String, String) | String)
       rand(100)
     end

@@ -1,7 +1,7 @@
 require "../resource"
 
 module KemalRestApi::Adapters
-  abstract struct CrystalDbModel < Model
+  abstract class CrystalDbModel < Model
     def initialize(@db_connection : String, @table_name : String)
     end
 

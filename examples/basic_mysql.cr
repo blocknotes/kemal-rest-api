@@ -20,7 +20,7 @@ def create_table1
   table
 end
 
-struct MyModel < KemalRestApi::Adapters::CrystalDbModel
+class MyModel < KemalRestApi::Adapters::CrystalDbModel
   def initialize
     super DB_CONNECTION, create_table1
   end

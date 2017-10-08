@@ -8,7 +8,7 @@ module SQLite3Spec
   SQLITE3_DB_CONNECTION = "sqlite3:#{SQLITE3_DB_FILE}"
   SQLITE3_DB_TABLE      = "Test"
 
-  struct Sqlite3Model < KemalRestApi::Adapters::CrystalDbModel
+  class Sqlite3Model < KemalRestApi::Adapters::CrystalDbModel
     def initialize
       super SQLITE3_DB_CONNECTION, create_table
       # Insert some data

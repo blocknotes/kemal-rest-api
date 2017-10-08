@@ -9,7 +9,7 @@ module MySQLSpec
   MYSQL_DB_URL        = "mysql://root@localhost/"
   MYSQL_DB_CONNECTION = "#{MYSQL_DB_URL}#{MYSQL_DB_NAME}"
 
-  struct MySQLModel < KemalRestApi::Adapters::CrystalDbModel
+  class MySQLModel < KemalRestApi::Adapters::CrystalDbModel
     def initialize
       super MYSQL_DB_CONNECTION, prepare
       # Insert some data

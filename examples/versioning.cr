@@ -1,7 +1,7 @@
 require "kemal"
 require "../src/*"
 
-struct MyModel < KemalRestApi::Model
+class MyModel < KemalRestApi::Model
   def create(args : Hash(String, String) | String)
     rand(100)
   end

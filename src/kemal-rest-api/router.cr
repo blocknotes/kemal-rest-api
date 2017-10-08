@@ -1,12 +1,7 @@
 require "kemal"
 
 module KemalRestApi
-  class JSONresponse
-    def initialize(@response : JSON::Any | Nil)
-    end
-  end
-
-  struct Resource
+  class Resource
     def generate_routes!
       @resources.each do |resource|
         resource.actions.each do |action|
