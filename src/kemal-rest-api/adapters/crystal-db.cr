@@ -28,9 +28,9 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def read(id : Int)
+    def read(id : Int | String)
       DB.open @db_connection do |db|
-        db.query "SELECT * FROM #{@table_name} WHERE id = ?", id do |rs|
+        db.query "SELECT * FROM #{@table_name} WHERE id = ?", id.to_i do |rs|
           rs.each do
             item = {} of String => String
             rs.each_column { |col| item[col] = (val = rs.read) ? val.to_s : "" }
@@ -41,10 +41,10 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def update(id : Int, data : Hash(String, String))
+    def update(id : Int | String, data : Hash(String, String))
       DB.open @db_connection do |db|
         found = false
-        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id) { |rs| found = rs.move_next }
+        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id.to_i) { |rs| found = rs.move_next }
         if found
           return 0 if data.empty?
           fields = data.map { |k, v| "#{k} = ?" }.join(", ")
@@ -55,10 +55,10 @@ module KemalRestApi::Adapters
       nil
     end
 
-    def delete(id : Int)
+    def delete(id : Int | String)
       DB.open @db_connection do |db|
         found = false
-        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id) { |rs| found = rs.move_next }
+        db.query("SELECT * FROM #{@table_name} WHERE id = ?", id.to_i) { |rs| found = rs.move_next }
         if found
           ret = db.exec "DELETE FROM #{@table_name} WHERE id = ?", id
           return ret.rows_affected if ret

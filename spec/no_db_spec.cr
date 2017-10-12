@@ -10,28 +10,30 @@ module NoDbSpec
       args ? 8 : nil
     end
 
-    def read(id : Int)
-      if id > 10
+    def read(id : Int | String)
+      if id.to_i > 10
         nil
       else
         {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
       end
     end
 
-    def update(id : Int, args : Hash(String, String))
-      if id > 10
+    def update(id : Int | String, args : Hash(String, String))
+      id_ = id.to_i
+      if id_ > 10
         nil
-      elsif id > 5
+      elsif id_ > 5
         1
       else
         0
       end
     end
 
-    def delete(id : Int)
-      if id > 10
+    def delete(id : Int | String)
+      id_ = id.to_i
+      if id_ > 10
         nil
-      elsif id > 5
+      elsif id_ > 5
         1
       else
         0

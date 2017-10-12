@@ -12,17 +12,17 @@ class MyModel < KemalRestApi::Model
   end
 
   # read: it should return an Hash( String, String ) or nil if not found
-  def read(id : Int)
+  def read(id : Int | String)
     (rand > 0.5) ? {"title": "Item #{rand(100)}", "num": "#{rand(100)}"} : nil
   end
 
   # update: it should return the affected rows or nil on error
-  def update(id : Int, args : Hash(String, String))
+  def update(id : Int | String, args : Hash(String, String))
     (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
   end
 
   # delete: it should return the affected rows or nil on error
-  def delete(id : Int)
+  def delete(id : Int | String)
     (rand > 0.5) ? ((rand > 0.5) ? 1 : 0) : nil
   end
 

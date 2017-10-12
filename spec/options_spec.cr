@@ -10,15 +10,15 @@ module OptionsSpec
       rand(100)
     end
 
-    def read(id : Int)
+    def read(id : Int | String)
       {"title": "Item #{rand(100)}", "num": "#{rand(100)}"}
     end
 
-    def update(id : Int, args : Hash(String, String))
+    def update(id : Int | String, args : Hash(String, String))
       1
     end
 
-    def delete(id : Int)
+    def delete(id : Int | String)
       1
     end
 
