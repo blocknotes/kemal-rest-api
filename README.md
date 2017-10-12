@@ -2,6 +2,8 @@
 
 A Crystal library to create REST API with Kemal.
 
+See [examples](https://github.com/blocknotes/kemal-rest-api/tree/master/examples) folder for **mysql**, **sqlite3** and **mongo** samples.
+
 **NOTE**: this is a *beta* version, a lot of features and security improvements need to be implemented actually
 
 ## Installation

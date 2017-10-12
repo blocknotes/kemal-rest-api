@@ -26,7 +26,7 @@ module KemalRestApi
           when ActionMethod::READ
             path = "/#{resource.plural}/:id"
             block = ->(env : HTTP::Server::Context) do
-              id = env.params.url["id"].to_i
+              id = env.params.url["id"]
               ret = resource.model.read id
               env.response.status_code = ret ? 200 : 404
               env.response.content_type = "application/json"
@@ -36,7 +36,7 @@ module KemalRestApi
           when ActionMethod::UPDATE
             path = "/#{resource.plural}/:id"
             block = ->(env : HTTP::Server::Context) do
-              id = env.params.url["id"].to_i
+              id = env.params.url["id"]
               # TODO: let pass only valid fields
               ret = resource.model.update id, resource.model.prepare_params(env, json: @option_json)
               env.response.content_type = "application/json"
@@ -55,7 +55,7 @@ module KemalRestApi
           when ActionMethod::DELETE
             path = "/#{resource.plural}/:id"
             block = ->(env : HTTP::Server::Context) do
-              id = env.params.url["id"].to_i
+              id = env.params.url["id"]
               ret = resource.model.delete id
               env.response.status_code = ret ? 200 : 404
               env.response.content_type = "application/json"
