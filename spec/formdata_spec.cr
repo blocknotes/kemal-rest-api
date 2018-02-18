@@ -36,7 +36,7 @@ module FormDataSpec
 
   describe KemalRestApi do
     Spec.before_each do
-      Kemal::RouteHandler::INSTANCE.http_routes = Radix::Tree(Kemal::Route).new
+      Kemal::RouteHandler::INSTANCE.routes = Radix::Tree(Kemal::Route).new
       res = KemalRestApi::Resource.new Sqlite3Model.new, KemalRestApi::ALL_ACTIONS, singular: "item"
       res.set_options(json: false)
       res.generate_routes!
