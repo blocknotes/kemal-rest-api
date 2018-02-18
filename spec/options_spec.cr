@@ -35,7 +35,7 @@ module OptionsSpec
 
   describe KemalRestApi do
     Spec.before_each do
-      Kemal::RouteHandler::INSTANCE.http_routes = Radix::Tree(Kemal::Route).new
+      Kemal::RouteHandler::INSTANCE.routes = Radix::Tree(Kemal::Route).new
       res = KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, prefix: "api/v1", singular: "item", plural: "objects"
       res.generate_routes!
     end

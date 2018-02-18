@@ -53,7 +53,7 @@ module NoDbSpec
 
   describe KemalRestApi do
     Spec.before_each do
-      Kemal::RouteHandler::INSTANCE.http_routes = Radix::Tree(Kemal::Route).new
+      Kemal::RouteHandler::INSTANCE.routes = Radix::Tree(Kemal::Route).new
       res = KemalRestApi::Resource.new NoDbModel.new, KemalRestApi::ALL_ACTIONS, singular: "item"
       res.generate_routes!
     end
