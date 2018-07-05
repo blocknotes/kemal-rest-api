@@ -12,7 +12,7 @@ module KemalRestApi::Adapters
         data = args.as(Hash(String, String))
       else
         data = Hash(String, String).new
-        JSON.parse(args.as(String)).each do |k, v|
+        JSON.parse(args.as(String)).as_h.each do |k, v|
           data[k.to_s] = v.to_s
         end
       end
