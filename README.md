@@ -1,4 +1,11 @@
-# kemal-rest-api [![Build Status](https://travis-ci.org/blocknotes/kemal-rest-api.svg?branch=develop)](https://travis-ci.org/blocknotes/kemal-rest-api)
+# kemal-rest-api - PROJECT UNMAINTAINED
+
+> *This project is not maintained anymore*
+>
+> *If you like it or continue to use it fork it please.*
+
+* * *
+* * *
 
 A Crystal library to create REST API with Kemal.
 
